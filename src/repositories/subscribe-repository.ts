@@ -27,6 +27,8 @@ async function registerUserOnFileSystem(userName: string, userEmail: string, pas
     usersJSON = JSON.stringify(arr);
     fs.writeFileSync("fs/users.json",usersJSON,"utf8");
 
+    return {id:randomId(),user: userName,email : userEmail, passwd: passwordHash}
+
 }
 
 export const subscribeRepository = {

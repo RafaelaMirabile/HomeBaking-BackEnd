@@ -1,15 +1,15 @@
 import { Request, ResponseToolkit, ResponseObject, ServerRoute } from "@hapi/hapi"
-import { loginService } from "../service/login-service.js";
+import { SignInParams, loginService } from "../service/login-service.js";
 
 async function loginInPost(req: Request, h: ResponseToolkit) {
-    const { userEmail, passwd } = req.payload as { userEmail: string, passwd: string };
+    const { userEmail, passwd } = req.payload as SignInParams;
 
     try {
-        const result = await loginService.signIn(userEmail, passwd);
-        return h.response().code(200);
+        const result = await loginService.signIn({userEmail, passwd});
+        return h.response(result).code(200);
     } catch (error) {
         console.log(error);
-        //   return res.status(httpStatus.UNAUTHORIZED).send({});
+        return h.response(error).code(401);
     }
 
 }
