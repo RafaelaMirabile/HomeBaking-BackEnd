@@ -8,7 +8,6 @@ async function findUserSessionByToken(token: string) {
 }
 
 async function findUserById(userId: string) {
-   
     const usersJSON = fs.readFileSync("fs/users.json", "utf8");
     const users = JSON.parse(usersJSON);
 

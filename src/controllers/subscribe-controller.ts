@@ -8,7 +8,7 @@ async function registerUser(req: Request, h: ResponseToolkit) {
         const userRegistrated = await subscribeService.createUser({ userName, userEmail, passwd });
         return h.response(userRegistrated).code(201)
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         if (error.name === "DuplicatedEmailError") {
             return h.response(error).code(409);
         }

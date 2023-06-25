@@ -21,3 +21,17 @@ export function duplicatedEmailError(): ApplicationError {
   };
 }
 
+export function invalidTokenCredential(): ApplicationError {
+  return {
+    name: "UnexistingUserToken",
+    message: "Session not found with given token",
+  };
+}
+
+export function invalidIdCredention(): ApplicationError {
+  return {
+    name: "InvalidIdCRedentionError",
+    message: "User not found with given userId",
+  };
+}
+
