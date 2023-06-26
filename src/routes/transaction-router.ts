@@ -9,7 +9,7 @@ export const transactionsRouter: ServerRoute[] = [
         options: {
             pre: [{ method: ensureAuth }]
           },
-        handler: transactionController.getTransactions
+        handler: transactionController.getTransactionsByUserId
     },
     {
       method: "POST",
@@ -25,7 +25,7 @@ export const transactionsRouter: ServerRoute[] = [
         options: {
             pre: [{ method: ensureAuth }]
           },
-        handler: transactionController.updateRecord
+        handler: transactionController.updateTransaction
     },
     {
         method: "DELETE",
