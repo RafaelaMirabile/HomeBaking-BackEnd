@@ -9,9 +9,9 @@ async function signIn(params: SignInParams): Promise<SignInResult> {
     const password = user[0].password;
 
     await validatePasswordOrFail(params.passwd, password);
-    const token = await createSession(user.id);
+    const register = await createSession(user[0].id);
 
-    return { token }
+    return register;
 }
 
 async function getUserOrFail(userEmail: string) {
@@ -21,16 +21,14 @@ async function getUserOrFail(userEmail: string) {
 }
 
 async function validatePasswordOrFail(password: string, userPassword: string) {
-    console.log(password, userPassword);
     const isPasswordValid = await bcrypt.compare(password, userPassword);
     if (!isPasswordValid) throw invalidCredentialsError();
 }
 
 async function createSession(userId: string) {
-    console.log(process.env.JWT_SECRET)
     const token = jwt.sign({ userId }, process.env.JWT_SECRET);
-    await loginRepository.registerUserSession(userId, token);
-    return token;
+    const userSession = await loginRepository.registerUserSession(userId, token);
+    return userSession;
 }
 export type User = {
     userEmail: string, passwd: string

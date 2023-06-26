@@ -1,4 +1,4 @@
-import { Request, ResponseToolkit, ResponseObject, ServerRoute } from "@hapi/hapi"
+import { Request, ResponseToolkit } from "@hapi/hapi"
 import { SignInParams, loginService } from "../service/login-service.js";
 
 async function loginInPost(req: Request, h: ResponseToolkit) {
@@ -6,6 +6,7 @@ async function loginInPost(req: Request, h: ResponseToolkit) {
 
     try {
         const result = await loginService.signIn({userEmail, passwd});
+        console.log('cont result',result);
         return h.response(result).code(200);
     } catch (error) {
         console.log(error);

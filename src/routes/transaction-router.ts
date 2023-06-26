@@ -12,6 +12,14 @@ export const transactionsRouter: ServerRoute[] = [
         handler: transactionController.getTransactions
     },
     {
+      method: "POST",
+      path: "/funds",
+      options: {
+          pre: [{ method: ensureAuth }]
+        },
+      handler: transactionController.registerTransaction
+  },
+    {
         method: "PUT",
         path: "/funds",
         options: {
