@@ -1,9 +1,10 @@
 import Hapi from '@hapi/hapi';
 import dotenv from 'dotenv';
-import Jwt from '@hapi/jwt';
 import { subscribeRouter } from "./routes/subscribe-router.js";
 import { loginRouter } from './routes/login-router.js';
 import userDecoration from './pluggins/userDecoration.js'
+import { transactionsRouter } from './routes/transaction-router.js';
+
 dotenv.config();
 
 const init = async () => {
@@ -20,6 +21,7 @@ const init = async () => {
     
     server.route(subscribeRouter);
     server.route(loginRouter);
+    server.route(transactionsRouter);
 
     await server.start();
     console.log(`Server running on ${process.env.PORT}`, server.info.uri);
