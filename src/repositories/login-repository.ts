@@ -1,10 +1,11 @@
 import fs from 'fs';
 
 async function findByEmail(email: string) {
-  const usersJSON = fs.readFileSync("fs/users.json", "utf8");
-  const users = JSON.parse(usersJSON);
-
-  return users.filter((users: any) => users.email === email);
+  const usersJSONFile = fs.readFileSync("fs/users.json", "utf8");
+  const usersArray = JSON.parse(usersJSONFile);
+  const user = usersArray.filter((users: any) => users.email === email);
+  
+  return user;
 
 }
 
@@ -15,7 +16,6 @@ async function registerUserSession(id: string, token: string) {
   };
 
   let usersSessionFile = fs.readFileSync("fs/usersSessions.json", "utf8");
-  console.log(usersSessionFile.length);
 
   if (usersSessionFile.length === 0) {
     fs.writeFileSync("fs/usersSessions.json", JSON.stringify([data]), 'utf8');
