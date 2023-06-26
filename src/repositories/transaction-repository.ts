@@ -25,20 +25,21 @@ async function fetchUserTransactions(userId: string): Promise<TransactionWithId[
 
     return userTransactions;
 }
-async function deleteTransaction(transactionId: string): Promise<void> {
+async function deleteTransaction(userId: string, transactionId: string): Promise<void> {
     const transactionsJSONFile = fs.readFileSync("fs/usersTransactions.json", "utf8");
     const transactionsArray: TransactionWithId[] = JSON.parse(transactionsJSONFile);
 
-    const updatedTransactionsArray = transactionsArray.filter((transaction) => transaction.transactionId !== transactionId);
+    const updatedTransactionsArray = transactionsArray.filter((transaction) => transaction.transactionId !== transactionId && transaction.userId === userId);
 
     const updatedTransactionsJSON = JSON.stringify(updatedTransactionsArray);
     fs.writeFileSync("fs/usersTransactions.json", updatedTransactionsJSON, "utf8");
 }
-async function updateTransaction(transactionId: string, updatedFields: Partial<Transactions>): Promise<TransactionWithId> {
-    const transactionsJSONFile = fs.readFileSync("fs/transactions.json", "utf8");
+
+async function updateTransaction(userId: string, transactionId: string, updatedFields: Partial<TransactionWithId>): Promise<TransactionWithId> {
+    const transactionsJSONFile = fs.readFileSync("fs/usersTransactions.json", "utf8");
     const transactionsArray: TransactionWithId[] = JSON.parse(transactionsJSONFile);
 
-    const updatedTransactionIndex = transactionsArray.findIndex((transaction) => transaction.transactionId === transactionId);
+    const updatedTransactionIndex = transactionsArray.findIndex((transaction) => transaction.transactionId === transactionId && transaction.userId === userId);
 
     if (updatedTransactionIndex !== -1) {
         transactionsArray[updatedTransactionIndex] = {

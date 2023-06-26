@@ -5,7 +5,7 @@ import { ensureAuth } from "../middlewares/authentication-middleware.js";
 export const transactionsRouter: ServerRoute[] = [
     {
         method: "GET",
-        path: "/funds",
+        path: "/funds/:userId",
         options: {
             pre: [{ method: ensureAuth }]
           },
@@ -13,7 +13,7 @@ export const transactionsRouter: ServerRoute[] = [
     },
     {
       method: "POST",
-      path: "/funds",
+      path: "/funds/:userId",
       options: {
           pre: [{ method: ensureAuth }]
         },
@@ -21,7 +21,7 @@ export const transactionsRouter: ServerRoute[] = [
   },
     {
         method: "PUT",
-        path: "/funds",
+        path: "/funds/:transactionId",
         options: {
             pre: [{ method: ensureAuth }]
           },
@@ -29,7 +29,7 @@ export const transactionsRouter: ServerRoute[] = [
     },
     {
         method: "DELETE",
-        path: "/funds",
+        path: "/funds/:transactionId",
         options: {
             pre: [{ method: ensureAuth }]
           },

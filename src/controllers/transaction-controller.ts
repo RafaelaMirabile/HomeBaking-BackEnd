@@ -16,7 +16,8 @@ async function getTransactionsByUserId(req: Request, h: ResponseToolkit) {
 
 
 async function registerTransaction(req: Request, h: ResponseToolkit) {
-    const { userId, value, type, description } = req.payload as TransactionsParams;
+    const { value, type, description } = req.payload as TransactionsParams;
+    const { userId } = req.params;
 
     try {
         const transaction = await transactionService.createTransaction(userId, value, type, description);
@@ -28,11 +29,13 @@ async function registerTransaction(req: Request, h: ResponseToolkit) {
 }
 
 async function updateTransaction(req: Request, h: ResponseToolkit) {
-    const { transactionId, value, description } = req.payload as TransactionWithId;
+    const { value, description } = req.payload as TransactionWithId;
+    const { transactionId } = req.params;
+    const userId = req.auth.credentials.userId as string;
 
     try {
         const updatedFields = { value, description };
-        const updatedTransaction = await transactionService.updateTransaction(transactionId, updatedFields);
+        const updatedTransaction = await transactionService.updateTransaction(userId, transactionId, updatedFields);
         return h.response(updatedTransaction).code(200);
     } catch (error) {
         console.log(error);
@@ -40,18 +43,19 @@ async function updateTransaction(req: Request, h: ResponseToolkit) {
     }
 }
 
-
 async function deleteRecord(req: Request, h: ResponseToolkit) {
     const { transactionId } = req.params;
+    const userId = req.auth.credentials.userId as string;
 
     try {
-        await transactionService.deleteTransactionOnFile(transactionId);
+        await transactionService.deleteTransactionOnFile(userId, transactionId);
         return h.response().code(204);
     } catch (error) {
         console.log(error);
         return h.response(error).code(500);
     }
 }
+
 
 
 export const transactionController = {
